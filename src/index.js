@@ -9,7 +9,7 @@ import { App } from "./App"
 
 render(
    <React.StrictMode>
-      <HashRouter>
+      <HashRouter basename="goscrum/">
          <Provider store={store}>
             <App />
          </Provider>
