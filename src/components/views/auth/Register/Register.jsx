@@ -36,9 +36,13 @@ export const Register = () => {
    const validationSchema = () =>
       Yup.object().shape({
          userName: Yup.string()
-            .min(4, "La cantidad mínima de caracteres es 4")
-            .required(required),
-         password: Yup.string().required(required),
+         .min(4, "La cantidad mínima de caracteres es 4")
+         .matches(/^[aA-zZ\s]+$/, "El nombre de usuario debe contener solo letras")
+         .required(required),
+         password: Yup.string()
+          .min(6, "La cantidad mínima de caracteres es 6")
+          .matches(/^(?:(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*)$/, "Debe contener al menos 1 mayúscula, 1 minúscula y 1 número")
+          .required(required),
          email: Yup.string()
             .email("Debe ser un email válido")
             .required(required),
@@ -233,7 +237,7 @@ export const Register = () => {
                <button type="submit">Enviar</button>
             </div>
             <div>
-               <Link to="/login">Ir a Iniciar sesión</Link>
+               <Link to="/login">Iniciar sesión</Link>
             </div>
          </form>
       </div>

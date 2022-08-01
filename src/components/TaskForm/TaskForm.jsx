@@ -1,13 +1,17 @@
 import { useFormik } from "formik"
 import * as Yup from "yup"
-import { ToastContainer, toast } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
-
+import { ToastContainer, toast} from "react-toastify"
+import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from "react-redux";
+import {createTask} from "../../store/actions/tasksActions"
 import "./TaskForm.styles.css"
 
-const { REACT_APP_API_ENDPOINT: API_ENDPOINT } = process.env
+// const { REACT_APP_API_ENDPOINT: API_ENDPOINT } = process.env;
+
 
 export const TaskForm = () => {
+   const dispatch = useDispatch();
+
    const initialValues = {
       title: "",
       status: "",
@@ -16,21 +20,10 @@ export const TaskForm = () => {
    }
 
    const onSubmit = () => {
-      fetch(`${API_ENDPOINT}task`, {
-         method: "POST",
-         mode: "cors",
-         headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-         },
-         body: JSON.stringify({ task: values }),
-      })
-         .then(response => response.json())
-         .then(data => {
-            resetForm()
-            toast("Tu tarea se creo")
-         })
-   }
+      dispatch(createTask(values));
+       resetForm()
+       toast("Tu tarea se creó.")
+ }
 
    const required = "* Campo obligatorio"
 
@@ -44,6 +37,7 @@ export const TaskForm = () => {
          importance: Yup.string().required(required),
       })
 
+   
    const formik = useFormik({ initialValues, validationSchema, onSubmit })
 
    const {
@@ -55,6 +49,7 @@ export const TaskForm = () => {
       values,
       resetForm,
    } = formik
+
 
    return (
       <section className="task-form">

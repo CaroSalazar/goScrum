@@ -54,6 +54,8 @@
 
 .auth a {
    padding: 0 !important;
+   text-align: center;
+   color: #999 !important;
 }
 
 .auth button {
