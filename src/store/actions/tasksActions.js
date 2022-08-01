@@ -17,6 +17,25 @@ export const tasksFailure = (error) => ({
   payload: error,
 });
 
+export const createTask = values => (dispatch) => {
+  dispatch(tasksRequest());
+  fetch("https://goscrum-api.alkemy.org/task/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      body: JSON.stringify({task: values}),
+    }).then((res) => res.json()
+        .then(() => {
+          console.log(values);
+            dispatch(getTasks(""))
+          }
+        )
+        .catch(error => dispatch(tasksFailure(error)))
+    );
+}
+
 export const getTasks = (path) => (dispatch) => {
   dispatch(tasksRequest());
   fetch(`${API_ENDPOINT}task/${path}`, {
@@ -73,20 +92,4 @@ export const editTaskStatus = (data) => (dispatch) => {
     .catch((error) => dispatch(tasksFailure(error)));
 };
 
-export const createTask = values => (dispatch) => {
-  dispatch(tasksRequest());
-  fetch("https://goscrum-api.alkemy.org/task/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-      body: JSON.stringify({task: values}),
-    }).then((res) => res.json()
-        .then((data) => {
-            dispatch(getTasks(""))
-          }
-        )
-        .catch(error => dispatch(tasksFailure(error)))
-    );
-}
+

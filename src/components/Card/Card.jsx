@@ -26,7 +26,7 @@ export const Card = ({
 
    return (
       <div className="card">
-         <div className="close" onClick={() => deleteCard(_id)}>
+         <div className="close" onClick={() => deleteCard(_id, data)}>
             x
          </div>
          <h3>{title}</h3>

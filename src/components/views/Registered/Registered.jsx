@@ -11,7 +11,7 @@ export default function Registered() {
   return (
     <>
       <div>
-        <div className="container">El team ID de tu equipo es: {teamID}</div>
+        <div className="container">¡Registro exitoso! El team ID de tu equipo es: {teamID}</div>
         <button type="button" onClick={handleBack}>
           Volver
         </button>

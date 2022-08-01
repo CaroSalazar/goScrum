@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import debounce from "lodash.debounce";
 import "react-loading-skeleton/dist/skeleton.css";
-
 import "./Tasks.styles.css";
 import {
   getTasks,
@@ -20,6 +19,7 @@ import { useResize } from "../../../hooks/useResize";
 import { Header } from "../../Header/Header";
 import { TaskForm } from "../../TaskForm/TaskForm";
 import { Card } from "../../Card/Card";
+import Swal from "sweetalert2";
 
 export const Tasks = () => {
   const [list, setList] = useState(null);
@@ -86,14 +86,44 @@ export const Tasks = () => {
     setSearch(event?.target?.value);
   }, 1000);
 
-  const handleDelete = (id) => {
+
+  const handleDelete = (id, data) => {
+    const user = localStorage.getItem("userName");
+    const role = localStorage.getItem("role");
+  
+    const userTarea = data.user.userName;
+
+    if (user === userTarea || role === "Team Leader") {
     dispatch(deleteTask(id));
+    } else {
+        Swal.fire({
+          title: "Error, Solo el Team Leader puede hacer cambios en las tareas",
+          confirmButtonText: "Aceptar",
+          width: "400px",
+          timer: 10000,
+          timerProgressBar: true,
+       })
+    }
   };
-
   const handleEditCardStatus = (data) => {
-    dispatch(editTaskStatus(data));
+    const user = localStorage.getItem("userName");
+    const role = localStorage.getItem("role");
+    const userTarea = data.user.userName;
+
+    if (user === userTarea || role === "Team Leader") {
+      dispatch(editTaskStatus(data));
+    } else {
+      Swal.fire({
+        title: "Error, solo el Team Leader puede hacer cambios en las tareas",
+        confirmButtonText: "Aceptar",
+        width: "400px",
+        timer: 10000,
+        timerProgressBar: true,
+      });
+    }
   };
 
+  
 
   if (error) return <div>Hay un error</div>;
 

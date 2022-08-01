@@ -12,8 +12,12 @@ main.donate section {
    flex-wrap: wrap;
    justify-content: center;
    flex-direction: column;
+   align-items: center;
 }
-
+.link-mercadoPago{
+   color: var(--global-primary-color);
+   font-weight: bold;
+}
 @media screen and (min-width: 600px) {
    main.donate section {
       border: var(--global-border);
